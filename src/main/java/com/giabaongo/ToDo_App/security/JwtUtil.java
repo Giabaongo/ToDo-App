@@ -12,13 +12,13 @@ import java.util.Date;
 @Component
 public class JwtUtil {
 
-    @Value("${jwt.secret}")
+    @Value("${spring.jwt.secret}")
     private String secret;
 
-    @Value("${jwt.expirationMs}")
+    @Value("${spring.jwt.expirationMs}")
     private long expirationMs;
 
-    // ✅ Tạo JWT từ username
+
     public String generateToken(String username) {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + expirationMs);
@@ -31,7 +31,7 @@ public class JwtUtil {
                 .compact();
     }
 
-    // ✅ Lấy username từ token
+
     public String getUsernameFromToken(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(secret.getBytes())
@@ -41,7 +41,7 @@ public class JwtUtil {
                 .getSubject();
     }
 
-    // ✅ Kiểm tra token hợp lệ không
+
     public boolean validateToken(String token) {
         try {
             Jwts.parserBuilder()
