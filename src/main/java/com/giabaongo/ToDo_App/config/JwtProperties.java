@@ -9,7 +9,7 @@ public class JwtProperties {
     private String secret;
     private long expirationMs;
 
-    // Getters và Setters
+
     public String getSecret() {
         return secret;
     }

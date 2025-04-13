@@ -1,5 +1,7 @@
 package com.giabaongo.ToDo_App.security;
 
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.Date;
 
 import javax.crypto.SecretKey;
@@ -14,14 +16,16 @@ import io.jsonwebtoken.security.Keys;
 
 @Component
 public class JwtUtil {
+    private final SecretKey key;
+    private final long expirationMs;
 
-    @Value("${spring.jwt.secret}")
-    private String secret;
-
-    @Value("${spring.jwt.expirationMs}")
-    private long expirationMs;
-
-    private final SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    public JwtUtil(
+            @Value("${spring.jwt.secret}") String secret,
+            @Value("${spring.jwt.expirationMs}") long expirationMs
+    ) {
+        this.key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
+        this.expirationMs = expirationMs;
+    }
 
     public String generateToken(String username) {
         Date now = new Date();

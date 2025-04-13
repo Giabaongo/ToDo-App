@@ -1,4 +1,4 @@
-package com.giabaongo.ToDo_App.dto.request;
+package com.giabaongo.ToDo_App.dto.response;
 
 import lombok.Data;
 
