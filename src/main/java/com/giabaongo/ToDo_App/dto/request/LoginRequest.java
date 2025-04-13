@@ -1,5 +1,8 @@
 package com.giabaongo.ToDo_App.dto.request;
 
+import lombok.Data;
+
+@Data
 public class LoginRequest {
     private String username;
     private String password;
