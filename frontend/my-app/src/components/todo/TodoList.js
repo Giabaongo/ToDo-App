@@ -12,7 +12,8 @@ import {
   Paper,
   Checkbox,
   AppBar,
-  Toolbar
+  Toolbar,
+  FormControlLabel
 } from '@mui/material';
 import { Delete as DeleteIcon, Edit as EditIcon, Logout as LogoutIcon } from '@mui/icons-material';
 import { todoService } from '../../services/todoService';
@@ -24,11 +25,12 @@ export const TodoList = () => {
   const [newTodo, setNewTodo] = useState('');
   const [editingTodo, setEditingTodo] = useState(null);
   const [editText, setEditText] = useState('');
+  const [showCompleted, setShowCompleted] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     fetchTodos();
-  }, []);
+  }, [showCompleted]);
 
   const handleLogout = () => {
     authService.logout();
@@ -37,7 +39,12 @@ export const TodoList = () => {
 
   const fetchTodos = async () => {
     try {
-      const data = await todoService.getAll();
+      let data;
+      if (showCompleted !== null) {
+        data = await todoService.filter({ completed: showCompleted });
+      } else {
+        data = await todoService.getAll();
+      }
       setTodos(data);
     } catch (error) {
       console.error('Error fetching todos:', error);
@@ -93,6 +100,14 @@ export const TodoList = () => {
     }
   };
 
+  const handleFilterChange = (event) => {
+    if (event.target.checked) {
+      setShowCompleted(true);
+    } else {
+      setShowCompleted(null);
+    }
+  };
+
   return (
     <Box>
       <AppBar position="static">
@@ -112,7 +127,7 @@ export const TodoList = () => {
 
       <Box sx={{ maxWidth: 800, margin: 'auto', mt: 4, px: 2 }}>
         <Paper sx={{ p: 2, mb: 2 }}>
-          <Box sx={{ display: 'flex', gap: 1 }}>
+          <Box sx={{ display: 'flex', gap: 1, mb: 2 }}>
             <TextField
               fullWidth
               variant="outlined"
@@ -129,6 +144,16 @@ export const TodoList = () => {
               Add
             </Button>
           </Box>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={showCompleted === true}
+                onChange={handleFilterChange}
+                color="primary"
+              />
+            }
+            label="Show completed todos only"
+          />
         </Paper>
 
         <List>

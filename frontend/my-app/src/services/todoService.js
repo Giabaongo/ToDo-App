@@ -23,5 +23,10 @@ export const todoService = {
   toggleComplete: async (id, completed) => {
     const response = await api.put(`/api/todos/${id}`, { completed });
     return response.data;
+  },
+
+  filter: async (filterParams) => {
+    const response = await api.post('/api/todos/filter', filterParams);
+    return response.data;
   }
 }; 
