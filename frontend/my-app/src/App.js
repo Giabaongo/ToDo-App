@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Login } from './components/auth/Login';
+import { TodoList } from './components/todo/TodoList';
 import { ThemeProvider, createTheme } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
@@ -25,7 +26,7 @@ function App() {
             path="/" 
             element={
               <ProtectedRoute>
-                <div>Home Page</div>
+                <TodoList />
               </ProtectedRoute>
             } 
           />
