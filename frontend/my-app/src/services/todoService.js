@@ -21,7 +21,7 @@ export const todoService = {
   },
 
   toggleComplete: async (id, completed) => {
-    const response = await api.patch(`/api/todos/${id}/toggle`, { completed });
+    const response = await api.put(`/api/todos/${id}`, { completed });
     return response.data;
   }
 }; 
