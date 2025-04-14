@@ -1,29 +1,64 @@
 package com.giabaongo.ToDo_App.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+
+import com.giabaongo.ToDo_App.dto.request.TodoFilterRequest;
 import com.giabaongo.ToDo_App.dto.request.TodoRequest;
 import com.giabaongo.ToDo_App.dto.response.TodoResponse;
 import com.giabaongo.ToDo_App.entity.Todo;
 import com.giabaongo.ToDo_App.entity.User;
 import com.giabaongo.ToDo_App.repository.TodoRepository;
 import com.giabaongo.ToDo_App.repository.UserRepository;
+
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.stream.Collectors;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class TodoService {
     private final TodoRepository todoRepository;
     private final UserRepository userRepository;
 
     public List<TodoResponse> getAllTodos(String username){
+        log.info("Getting all todos for user: {}", username);
+        long totalTodos = todoRepository.countByUserUsername(username);
+        log.info("Total todos for user {}: {}", username, totalTodos);
+        
         return todoRepository.findByUserUsername(username)
                 .stream()
                 .map(todo -> convertToResponse(todo))
+                .collect(Collectors.toList());
+    }
+
+    public List<TodoResponse> getFilteredTodos(String username, TodoFilterRequest filterRequest) {
+        log.info("Filtering todos for user: {}", username);
+        long totalTodos = todoRepository.countByUserUsername(username);
+        log.info("Total todos for user {}: {}", username, totalTodos);
+        
+        log.info("Filter criteria - completed: {}, searchText: {}, startDate: {}, endDate: {}", 
+                filterRequest.getCompleted(), 
+                filterRequest.getSearchText(),
+                filterRequest.getStartDate(),
+                filterRequest.getEndDate());
+
+        List<Todo> todos = todoRepository.findByUserUsernameAndFilters(
+                username,
+                filterRequest.getCompleted(),
+                filterRequest.getStartDate(),
+                filterRequest.getEndDate(),
+                filterRequest.getSearchText()
+        );
+
+        log.info("Found {} todos matching criteria", todos.size());
+        
+        return todos.stream()
+                .map(this::convertToResponse)
                 .collect(Collectors.toList());
     }
 

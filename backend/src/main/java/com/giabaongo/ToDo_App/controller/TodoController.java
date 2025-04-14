@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.giabaongo.ToDo_App.dto.request.TodoFilterRequest;
 import com.giabaongo.ToDo_App.dto.request.TodoRequest;
 import com.giabaongo.ToDo_App.dto.response.TodoResponse;
 import com.giabaongo.ToDo_App.service.TodoService;
@@ -50,6 +51,25 @@ public class TodoController {
     public ResponseEntity<List<TodoResponse>> getAllTodos(Authentication authentication) {
         String username = authentication.getName();
         return ResponseEntity.ok(todoService.getAllTodos(username));
+    }
+
+    @Operation(
+        summary = "Filter todos",
+        description = "Filter todos based on completion status, date range, and search text"
+    )
+    @ApiResponses(value = {
+        @ApiResponse(
+            responseCode = "200",
+            description = "Successfully filtered todos",
+            content = @Content(schema = @Schema(implementation = TodoResponse.class))
+        )
+    })
+    @PostMapping("/filter")
+    public ResponseEntity<List<TodoResponse>> filterTodos(
+            @Valid @RequestBody TodoFilterRequest filterRequest,
+            Authentication authentication) {
+        String username = authentication.getName();
+        return ResponseEntity.ok(todoService.getFilteredTodos(username, filterRequest));
     }
 
     @Operation(
