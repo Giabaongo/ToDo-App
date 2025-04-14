@@ -13,5 +13,15 @@ spring:
       ddl-auto: update
     show-sql: true
   jwt:
-    secret: jxgEQeXHuPq8VdbyYFNkANdudQ53YUn4BkCEfghtFdsfsdfsdf6454HJ
+    secret: oSo4KYQ0QaUsyzZVoM44S7URapYOl2RfZxqqqVT4DuL1FZKr4cC7Tu66WJOEsrLo
     expirationMs: 86400000
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operationsSorter: method
+    tagsSorter: alpha
+    filter: true
+  show-actuator: true

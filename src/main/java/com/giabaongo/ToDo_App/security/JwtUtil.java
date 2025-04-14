@@ -1,7 +1,6 @@
 package com.giabaongo.ToDo_App.security;
 
 import java.nio.charset.StandardCharsets;
-import java.util.Base64;
 import java.util.Date;
 
 import javax.crypto.SecretKey;
@@ -35,7 +34,7 @@ public class JwtUtil {
                 .setSubject(username)
                 .setIssuedAt(now)
                 .setExpiration(expiryDate)
-                .signWith(key)
+                .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
 
