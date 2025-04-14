@@ -25,6 +25,7 @@ import lombok.RequiredArgsConstructor;
 public class AuthController {
     private final AuthService authService;
 
+
     @Operation(
         summary = "Login user",
         description = "Authenticate user and return JWT token"
