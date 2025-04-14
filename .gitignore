@@ -31,3 +31,75 @@ build/
 
 ### VS Code ###
 .vscode/
+
+
+
+# Maven
+backend/target/
+backend/.mvn/
+backend/mvnw
+backend/mvnw.cmd
+
+# IDE
+backend/.idea/
+backend/*.iml
+backend/*.iws
+backend/*.ipr
+
+# Logs
+backend/logs/
+backend/*.log
+
+# Application Properties
+backend/src/main/resources/application-*.properties
+backend/src/main/resources/application-*.yaml
+
+# Dependencies
+frontend/node_modules/
+frontend/.pnp
+frontend/.pnp.js
+
+# Testing
+frontend/coverage/
+
+# Production
+frontend/build/
+frontend/dist/
+
+# IDE
+frontend/.idea/
+frontend/.vscode/
+frontend/*.iml
+frontend/*.iws
+frontend/*.ipr
+
+# Environment variables
+frontend/.env
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
+
+# Debug
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*~
+
+# Database
+*.db
+*.sqlite
