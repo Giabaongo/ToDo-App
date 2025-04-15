@@ -15,7 +15,7 @@ import {
   Toolbar,
   FormControlLabel
 } from '@mui/material';
-import { Delete as DeleteIcon, Edit as EditIcon, Logout as LogoutIcon } from '@mui/icons-material';
+import { Delete as DeleteIcon, Edit as EditIcon, Logout as LogoutIcon, Search as SearchIcon } from '@mui/icons-material';
 import { todoService } from '../../services/todoService';
 import { authService } from '../../services/authService';
 import { useNavigate } from 'react-router-dom';
@@ -26,11 +26,12 @@ export const TodoList = () => {
   const [editingTodo, setEditingTodo] = useState(null);
   const [editText, setEditText] = useState('');
   const [showCompleted, setShowCompleted] = useState(null);
+  const [searchText, setSearchText] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
     fetchTodos();
-  }, [showCompleted]);
+  }, [showCompleted, searchText]);
 
   const handleLogout = () => {
     authService.logout();
@@ -40,8 +41,11 @@ export const TodoList = () => {
   const fetchTodos = async () => {
     try {
       let data;
-      if (showCompleted !== null) {
-        data = await todoService.filter({ completed: showCompleted });
+      if (showCompleted !== null || searchText.trim()) {
+        data = await todoService.filter({ 
+          completed: showCompleted,
+          searchText: searchText.trim() || null
+        });
       } else {
         data = await todoService.getAll();
       }
@@ -108,6 +112,10 @@ export const TodoList = () => {
     }
   };
 
+  const handleSearchChange = (event) => {
+    setSearchText(event.target.value);
+  };
+
   return (
     <Box>
       <AppBar position="static">
@@ -144,16 +152,28 @@ export const TodoList = () => {
               Add
             </Button>
           </Box>
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={showCompleted === true}
-                onChange={handleFilterChange}
-                color="primary"
-              />
-            }
-            label="Show completed todos only"
-          />
+          <Box sx={{ display: 'flex', gap: 2, alignItems: 'center', mb: 2 }}>
+            <TextField
+              fullWidth
+              variant="outlined"
+              placeholder="Search todos..."
+              value={searchText}
+              onChange={handleSearchChange}
+              InputProps={{
+                startAdornment: <SearchIcon sx={{ mr: 1, color: 'text.secondary' }} />
+              }}
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={showCompleted === true}
+                  onChange={handleFilterChange}
+                  color="primary"
+                />
+              }
+              label="Show completed"
+            />
+          </Box>
         </Paper>
 
         <List>
@@ -201,6 +221,7 @@ export const TodoList = () => {
                 <>
                   <ListItemText
                     primary={todo.title}
+                    secondary={todo.description}
                     sx={{
                       textDecoration: todo.completed ? 'line-through' : 'none',
                       color: todo.completed ? 'text.secondary' : 'text.primary'
