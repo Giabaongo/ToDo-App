@@ -6,7 +6,8 @@ import {
   Typography, 
   Container, 
   Paper,
-  Alert 
+  Alert,
+  Link
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { authService } from '../../services/authService';
@@ -82,6 +83,14 @@ export const Login = () => {
             >
               Sign In
             </Button>
+            <Box sx={{ textAlign: 'center' }}>
+              <Typography variant="body2" color="text.secondary">
+                Don't have an account?{' '}
+                <Link href="/register" underline="hover">
+                  Register here
+                </Link>
+              </Typography>
+            </Box>
           </Box>
         </Paper>
       </Box>

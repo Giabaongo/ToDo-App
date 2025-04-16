@@ -30,6 +30,26 @@ export const authService = {
       }
     }
   },
+
+  register: async (userData) => {
+    try {
+      const response = await api.post('/users', userData);
+      console.log('Registration response:', response);
+      return response.data;
+    } catch (error) {
+      console.error('Registration error:', error);
+      if (error.response) {
+        console.error('Error response:', error.response.data);
+        throw new Error(error.response.data.message || 'Registration failed');
+      } else if (error.request) {
+        console.error('No response received:', error.request);
+        throw new Error('No response from server. Please check if the server is running at http://localhost:8080/todoapp');
+      } else {
+        console.error('Error setting up request:', error.message);
+        throw error;
+      }
+    }
+  },
   
   logout: () => {
     localStorage.removeItem('token');

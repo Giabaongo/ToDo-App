@@ -5,6 +5,7 @@ import { TodoList } from './components/todo/TodoList';
 import { ThemeProvider, createTheme } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
+import RegisterForm from './components/RegisterForm';
 
 const theme = createTheme({
   palette: {
@@ -22,6 +23,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<RegisterForm />} />
           <Route 
             path="/" 
             element={

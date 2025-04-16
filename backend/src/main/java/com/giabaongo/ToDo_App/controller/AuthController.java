@@ -1,5 +1,6 @@
 package com.giabaongo.ToDo_App.controller;
 
+import com.giabaongo.ToDo_App.dto.request.UserCreationRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
@@ -55,6 +56,20 @@ public class AuthController {
                     .body("An error occurred during login");
         }
     }
+
+//    @PostMapping("/register")
+//    public ResponseEntity<?> register(@RequestBody UserCreationRequest request) {
+//        try {
+//            LoginResponse response = authService.login(request);
+//            return ResponseEntity.ok(response);
+//        } catch (AuthenticationException e) {
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+//                    .body("Login failed: " + e.getMessage());
+//        } catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+//                    .body("An error occurred during login");
+//        }
+//    }
 
     //@PostMapping("/introspect")
 
